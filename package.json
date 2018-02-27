@@ -5,8 +5,9 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "node index.js",
-    "testwatch": "npm run build:dev && mocha --compilers js:babel-core/register --opts ./mocha.opts --reporter min --watch",
-    "test": "npm run build:dev && mocha --compilers js:babel-core/register --opts ./mocha.opts --reporter min",
+    "develop": "npm run build:dev && mocha --compilers js:babel-core/register --opts ./mocha.opts --reporter min --watch",
+    "test": "mocha --compilers js:babel-core/register --opts ./mocha.opts --reporter min",
+    "postinstall": "npm run build:dev",
     "build:dev": "rollup -c config/dev.js",
     "build:prod": "rollup -c config/prod.js"
   },
