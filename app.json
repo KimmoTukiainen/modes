@@ -1,17 +1,15 @@
 {
   "name": "modes",
   "scripts": {
+    "test": "npm run test"
   },
-  "env": {
-  },
+  "env": {},
   "formation": {
     "web": {
       "quantity": 1
     }
   },
-  "addons": [
-
-  ],
+  "addons": [],
   "buildpacks": [
     {
       "url": "heroku/nodejs"
