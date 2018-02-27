@@ -5,6 +5,7 @@ import globals from "rollup-plugin-node-globals";
 import replace from "rollup-plugin-replace";
 import resolve from "rollup-plugin-node-resolve";
 import postcss from "rollup-plugin-postcss";
+import copy from "rollup-plugin-copy";
 
 export default {
   input: "lib/index.jsx",
@@ -13,6 +14,10 @@ export default {
     format: "iife"
   },
   plugins: [
+    copy({
+      "lib/index.html": "dist/index.html",
+      verbose: true
+    }),
     postcss({ modules: true }),
     babel({
       babelrc: false,
