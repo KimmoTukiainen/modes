@@ -1,0 +1,7 @@
+--ui bdd
+--timeout 999999
+--colors
+--recursive
+./lib/**/*.test.js
+--require
+./test/test.bootstrap.js

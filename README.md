@@ -1,2 +1,2 @@
-# modes
-Musical modes
+# Modes
+
