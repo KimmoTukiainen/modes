@@ -1,12 +1,16 @@
-// ES6/ES201X-functionality
-require("babel-polyfill");
-require("babel-register")(require("../package.json").babel); // to be able to write es6+ tests
-
 // Chai
 require("chai/register-assert"); // Using Assert style
 require("chai/register-expect"); // Using Expect style
 require("chai/register-should"); // Using Should style
 
+
+// ES6/ES201X-functionality
+require("babel-polyfill");
+require("babel-register"); 
+// (require("../package.json").babel); // to be able to write es6+ tests
+require("ignore-styles");
+
+/*
 // DOM simulation things
 // ------------------------
 if (!global.dom) {
@@ -32,13 +36,16 @@ if (!global.dom) {
     };
   }
 }
+global.window.React = global.React;
+global.window.ReactDOM = global.ReactDOM;
+*/
 
 // Put react on Window, that's what we do in the normal application (for now)
 global.React = require("react");
 global.ReactDOM = require("react-dom");
-global.window.React = global.React;
-global.window.ReactDOM = global.ReactDOM;
+
 
 var Adapter = require("enzyme-adapter-react-16");
 var configure = require("enzyme").configure;
 configure({ adapter: new Adapter() });
+

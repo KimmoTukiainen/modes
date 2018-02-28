@@ -6,6 +6,7 @@ import replace from "rollup-plugin-replace";
 import resolve from "rollup-plugin-node-resolve";
 import postcss from "rollup-plugin-postcss";
 import copy from "rollup-plugin-copy";
+import uglify from "rollup-plugin-uglify";
 
 export default {
   input: "lib/index.jsx",
@@ -14,33 +15,24 @@ export default {
     format: "iife"
   },
   plugins: [
-    copy({
-      "lib/index.html": "dist/index.html",
-      verbose: true
+    resolve({
+      browser: true,
+      main: true
     }),
-    postcss({ modules: true }),
+    cjs(),
     babel({
       babelrc: false,
       exclude: ["node_modules/**", "**/*.less"],
       presets: ["es2015-rollup", "stage-0", "react"]
     }),
-    cjs({
-      exclude: "node_modules/process-es6/**",
-      include: [
-        "node_modules/create-react-class/**",
-        "node_modules/fbjs/**",
-        "node_modules/object-assign/**",
-        "node_modules/react/**",
-        "node_modules/react-dom/**",
-        "node_modules/prop-types/**"
-      ]
+    uglify(),
+    copy({
+      "lib/index.html": "dist/index.html",
+      verbose: true
     }),
+    postcss({ modules: true }),
     globals(),
-    replace({ "process.env.NODE_ENV": JSON.stringify("development") }),
-    resolve({
-      browser: true,
-      main: true
-    })
+    replace({ "process.env.NODE_ENV": JSON.stringify("development") })
   ],
   sourcemap: true
 };

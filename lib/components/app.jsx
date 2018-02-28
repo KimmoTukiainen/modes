@@ -1,4 +1,7 @@
-import "./app.module.less";
+import styles from "./app.module.less";
+
+import React from "react";
+import CSSModules from "react-css-modules";
 import { getScalePattern, scalePatterns, notes } from "../data.js";
 import {
   getScale,
@@ -7,7 +10,6 @@ import {
 } from "../modes/modes.functions";
 import { getFretSymbols } from "./app.functions";
 import { pluck, map } from "../functional.functions";
-import React from "react";
 
 class App extends React.Component {
   constructor(props) {
@@ -78,7 +80,7 @@ class App extends React.Component {
       className.push("first");
     }
     return (
-      <div styleName={className.join(" ")} key={i}>
+      <div className={className.join(" ")} key={i}>
         {currentFret.map((note, j) => this.renderNote(note, i + "-" + j))}
       </div>
     );
@@ -127,4 +129,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default CSSModules(App, styles);
