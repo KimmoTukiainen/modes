@@ -3,12 +3,29 @@ require("chai/register-assert"); // Using Assert style
 require("chai/register-expect"); // Using Expect style
 require("chai/register-should"); // Using Should style
 
+// LESS processing needs this*
+require("ignore-styles");
 
 // ES6/ES201X-functionality
 require("babel-polyfill");
-require("babel-register"); 
+require("babel-register")({
+  sourceMaps: "inline",
+  presets: ["env", "stage-0", "react"],
+  plugins: [
+    [
+      "react-css-modules", // LESS processing needs this*
+      {
+        filetypes: {
+          ".less": {
+            syntax: "postcss-less"
+          }
+        },
+        generateScopedName: "[local]"
+      }
+    ]
+  ]
+});
 // (require("../package.json").babel); // to be able to write es6+ tests
-require("ignore-styles");
 
 /*
 // DOM simulation things
@@ -44,8 +61,6 @@ global.window.ReactDOM = global.ReactDOM;
 global.React = require("react");
 global.ReactDOM = require("react-dom");
 
-
 var Adapter = require("enzyme-adapter-react-16");
 var configure = require("enzyme").configure;
 configure({ adapter: new Adapter() });
-
