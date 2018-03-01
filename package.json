@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "start": "node index.js",
-    "develop": "mocha --opts ./mocha.opts --reporter min --watch",
+    "tdd": "npm run test -- --watch",
+    "dev": "npm run build:dev -- -w",
     "test": "mocha --opts ./mocha.opts --reporter min",
     "postinstall": "npm run build:dev",
     "build:dev": "rollup -c config/dev.js",

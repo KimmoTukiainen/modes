@@ -63,7 +63,7 @@ class App extends React.Component {
 
     const className = names.join(" ");
     return (
-      <span className={className} key={key}>
+      <span styleName={className} key={key}>
         <span>{note}</span>
       </span>
     );
@@ -80,7 +80,7 @@ class App extends React.Component {
       className.push("first");
     }
     return (
-      <div className={className.join(" ")} key={i}>
+      <div styleName={className.join(" ")} key={i}>
         {currentFret.map((note, j) => this.renderNote(note, i + "-" + j))}
       </div>
     );
@@ -91,10 +91,10 @@ class App extends React.Component {
     const scale = getScale(this.state.key, getScalePattern(this.state.scale));
     const frets = getFretSymbols(strings, scale);
     return (
-      <div className="container">
-        <div className="choices">
-          <div className="choice">
-            <h1>Select mode</h1>
+      <div styleName="container">
+        <div styleName="choices">
+          <div styleName="choice">
+            <h1 styleName="title">Select mode</h1>
             <select
               defaultValue={this.state.scale}
               onChange={e => this.onModeChange(e.target.value)}
@@ -104,8 +104,8 @@ class App extends React.Component {
               ))}
             </select>
           </div>
-          <div className="choice">
-            <h1>Select key</h1>
+          <div styleName="choice">
+            <h1 styleName="title">Select key</h1>
             <select
               defaultValue={this.state.key}
               onChange={e => this.onKeyChange(e.target.value)}
@@ -113,8 +113,8 @@ class App extends React.Component {
               {notes.map(note => <option key={note}>{note}</option>)}
             </select>
           </div>
-          <div className="choice">
-            <h1>Amount of strings</h1>
+          <div styleName="choice">
+            <h1 styleName="title">Amount of strings</h1>
             <select
               defaultValue={this.state.stringsAmount}
               onChange={e => this.onAmountChange(e.target.value)}
@@ -129,4 +129,4 @@ class App extends React.Component {
   }
 }
 
-export default CSSModules(App, styles);
+export default CSSModules(App, styles, { allowMultiple: true });
