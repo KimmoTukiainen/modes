@@ -11,8 +11,10 @@ export default {
   input: "lib/api/server.js",
   output: {
     file: "index.js",
-    format: "iife"
+    format: "cjs",
+    sourcemap: false
   },
+  external: ["express", "bodyParser", "mongodb", "path"],
   plugins: [
     builtins(),
     json(),
@@ -30,6 +32,5 @@ export default {
     }),
     globals(),
     replace({ "process.env.NODE_ENV": JSON.stringify("development") })
-  ],
-  sourcemap: true
+  ]
 };
