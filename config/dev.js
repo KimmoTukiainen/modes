@@ -12,7 +12,8 @@ export default {
   input: "lib/index.jsx",
   output: {
     file: "dist/index.js",
-    format: "iife"
+    format: "iife",
+    sourcemap: true
   },
   plugins: [
     resolve({
@@ -33,6 +34,5 @@ export default {
     postcss({ modules: true }),
     globals(),
     replace({ "process.env.NODE_ENV": JSON.stringify("development") })
-  ],
-  sourcemap: true
+  ]
 };
