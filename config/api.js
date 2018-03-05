@@ -1,9 +1,7 @@
 // Rollup plugins.
 import babel from "rollup-plugin-babel";
 import cjs from "rollup-plugin-commonjs";
-import globals from "rollup-plugin-node-globals";
 import resolve from "rollup-plugin-node-resolve";
-import builtins from "rollup-plugin-node-builtins";
 import json from "rollup-plugin-json";
 
 export default {
@@ -13,9 +11,8 @@ export default {
     format: "cjs",
     sourcemap: false
   },
-  external: ["express", "bodyParser", "mongodb", "path", "jsonwebtoken"],
+  external: ["express", "bodyParser", "mongodb", "path", "jsonwebtoken", "dotenv"],
   plugins: [
-    builtins(),
     json(),
     resolve({
       browser: false,
@@ -28,7 +25,6 @@ export default {
       babelrc: false,
       exclude: ["node_modules/**", "**/*.less"],
       presets: ["es2015-rollup", "stage-0", "react"]
-    }),
-    globals()
+    })
   ]
 };
