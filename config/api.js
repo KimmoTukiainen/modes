@@ -11,7 +11,7 @@ export default {
     format: "cjs",
     sourcemap: false
   },
-  external: ["express", "body-parser", "mongodb", "path", "jsonwebtoken", "dotenv"],
+  external: ["express", "body-parser", "mongodb", "path", "jsonwebtoken", "dotenv", "fs"],
   plugins: [
     json(),
     resolve({
