@@ -1,6 +1,7 @@
 import styles from "./app.module.less";
 
 import React from "react";
+import Setups from "./setups.jsx";
 import CSSModules from "react-css-modules";
 import { getScalePattern, scalePatterns, notes } from "../data.js";
 import {
@@ -10,6 +11,9 @@ import {
 } from "../modes/modes.functions";
 import { getFretSymbols } from "./app.functions";
 import { pluck, map } from "../functional.functions";
+import SelectBox from "./selectBox";
+import SetupService from "../api/SetupService";
+import Option from "./Option";
 
 class App extends React.Component {
   constructor(props) {
@@ -24,6 +28,8 @@ class App extends React.Component {
     this.onModeChange = this.onModeChange.bind(this);
     this.onKeyChange = this.onKeyChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
+
+    this.setupService = new SetupService();
   }
 
   onAmountChange(stringsAmount) {
@@ -87,23 +93,27 @@ class App extends React.Component {
   }
 
   render() {
+    debugger;
     const strings = getStrings(this.state.stringsAmount);
     const scale = getScale(this.state.key, getScalePattern(this.state.scale));
     const frets = getFretSymbols(strings, scale);
+
+    const modeOptions = this.state.scalePatterns.map(
+      pattern => new Option(pattern.name, pattern.name)
+    );
+    const activeMode = modeOptions.find(opt => {
+      return opt.value === this.state.scale;
+    });
     return (
       <div styleName="container">
+        <Setups getSetups={this.setupService.getSetups} />
         <div styleName="choices">
-          <div styleName="choice">
-            <h1 styleName="title">Select mode</h1>
-            <select
-              defaultValue={this.state.scale}
-              onChange={e => this.onModeChange(e.target.value)}
-            >
-              {this.state.scalePatterns.map(pattern => (
-                <option key={pattern.name}>{pattern.name}</option>
-              ))}
-            </select>
-          </div>
+          <SelectBox
+            title="Select mode"
+            options={modeOptions}
+            onChange={this.onModeChange}
+            value={activeMode}
+          />
           <div styleName="choice">
             <h1 styleName="title">Select key</h1>
             <select
