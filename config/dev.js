@@ -1,6 +1,6 @@
 // Rollup plugins.
 import babel from "rollup-plugin-babel";
-import cjs from "rollup-plugin-commonjs";
+import commonjs from "rollup-plugin-commonjs";
 import globals from "rollup-plugin-node-globals";
 import replace from "rollup-plugin-replace";
 import resolve from "rollup-plugin-node-resolve";
@@ -13,18 +13,35 @@ export default {
   output: {
     file: "dist/index.js",
     format: "iife",
-    sourcemap: true
+    sourcemap: true,
+    globals: {
+      react: "React",
+      "react-dom": "ReactDOM"
+    }
   },
   plugins: [
     resolve({
       browser: true,
       main: true
     }),
-    cjs(),
     babel({
       babelrc: false,
       exclude: ["node_modules/**", "**/*.less"],
       presets: ["es2015-rollup", "stage-0", "react"]
+    }),
+    commonjs({
+      include: "node_modules/**",
+      namedExports: {
+        "./node_modules/react/react.js": [
+          "cloneElement",
+          "createElement",
+          "PropTypes",
+          "Children",
+          "Component",
+          "React"
+        ]
+      },
+      extensions: [".js", ".jsx"]
     }),
     uglify(),
     copy({

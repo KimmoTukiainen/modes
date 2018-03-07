@@ -1,6 +1,7 @@
 import styles from "./app.module.less";
 
 import React from "react";
+import Setups from "./setups.jsx";
 import CSSModules from "react-css-modules";
 import { getScalePattern, scalePatterns, notes } from "../data.js";
 import {
@@ -10,34 +11,51 @@ import {
 } from "../modes/modes.functions";
 import { getFretSymbols } from "./app.functions";
 import { pluck, map } from "../functional.functions";
+import SelectBox from "./selectBox";
+import Option from "./Option";
+import Setup from "../api/Setup";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       key: "E",
-      scale: "dorian",
-      stringsAmount: 6,
+      mode: "dorian",
+      amount: 6,
       scalePatterns
     };
 
     this.onModeChange = this.onModeChange.bind(this);
     this.onKeyChange = this.onKeyChange.bind(this);
     this.onAmountChange = this.onAmountChange.bind(this);
+    this.onSetupChange = this.onSetupChange.bind(this);
+    this.getCurrentSetup = this.getCurrentSetup.bind(this);
   }
 
-  onAmountChange(stringsAmount) {
+  onSetupChange(setup) {
     const state = {
       ...this.state,
-      stringsAmount
+      ...setup
+    };
+
+    delete state._id;
+
+    this.setState(state);
+  }
+
+  onAmountChange(value) {
+    const amount = parseInt(value, 10);
+    const state = {
+      ...this.state,
+      amount
     };
     this.setState(state);
   }
 
-  onModeChange(scale) {
+  onModeChange(mode) {
     const state = {
       ...this.state,
-      scale
+      mode
     };
     this.setState(state);
   }
@@ -48,6 +66,10 @@ class App extends React.Component {
       key
     };
     this.setState(state);
+  }
+
+  getCurrentSetup() {
+    return new Setup(null, this.state.mode, this.state.key, this.state.amount);
   }
 
   renderNote(note, key) {
@@ -87,41 +109,46 @@ class App extends React.Component {
   }
 
   render() {
-    const strings = getStrings(this.state.stringsAmount);
-    const scale = getScale(this.state.key, getScalePattern(this.state.scale));
+    const modeOptions = this.state.scalePatterns.map(
+      pattern => new Option(pattern.name, pattern.name)
+    );
+    const activeMode = modeOptions.find(opt => opt.value === this.state.mode);
+
+    const keyOptions = notes.map(note => new Option(note, note));
+    const activeKey = keyOptions.find(opt => opt.value === this.state.key);
+
+    const stringOptions = [6, 7, 8].map(amount => new Option(amount, amount));
+    const activeString = stringOptions.find(s => s.value === this.state.amount);
+
+    const strings = getStrings(this.state.amount);
+    const scale = getScale(this.state.key, getScalePattern(this.state.mode));
     const frets = getFretSymbols(strings, scale);
+
     return (
       <div styleName="container">
+        <Setups
+          onChange={this.onSetupChange}
+          getCurrentSetup={this.getCurrentSetup}
+        />
         <div styleName="choices">
-          <div styleName="choice">
-            <h1 styleName="title">Select mode</h1>
-            <select
-              defaultValue={this.state.scale}
-              onChange={e => this.onModeChange(e.target.value)}
-            >
-              {this.state.scalePatterns.map(pattern => (
-                <option key={pattern.name}>{pattern.name}</option>
-              ))}
-            </select>
-          </div>
-          <div styleName="choice">
-            <h1 styleName="title">Select key</h1>
-            <select
-              defaultValue={this.state.key}
-              onChange={e => this.onKeyChange(e.target.value)}
-            >
-              {notes.map(note => <option key={note}>{note}</option>)}
-            </select>
-          </div>
-          <div styleName="choice">
-            <h1 styleName="title">Amount of strings</h1>
-            <select
-              defaultValue={this.state.stringsAmount}
-              onChange={e => this.onAmountChange(e.target.value)}
-            >
-              {[6, 7, 8].map(amount => <option key={amount}>{amount}</option>)}
-            </select>
-          </div>
+          <SelectBox
+            title="Select mode"
+            options={modeOptions}
+            onChange={this.onModeChange}
+            value={activeMode}
+          />
+          <SelectBox
+            title="Select key"
+            options={keyOptions}
+            onChange={this.onKeyChange}
+            value={activeKey}
+          />
+          <SelectBox
+            title="Amount of strings"
+            options={stringOptions}
+            onChange={this.onAmountChange}
+            value={activeString}
+          />
         </div>
         {frets[0].map((fret, i) => this.renderFret(frets, i))}
       </div>
