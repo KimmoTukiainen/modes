@@ -9,7 +9,8 @@ export default {
   output: {
     file: "dist_server/index.js",
     format: "cjs",
-    sourcemap: false
+    sourcemap: false,
+    intro: "var regeneratorRuntime = require('regenerator-runtime');\n"
   },
   external: ["express", "body-parser", "mongodb", "path", "jsonwebtoken", "dotenv", "fs"],
   plugins: [

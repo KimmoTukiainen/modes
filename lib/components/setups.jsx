@@ -37,7 +37,7 @@ class Setups extends React.Component {
     axios
       .get("/api/setups")
       .then(response => {
-        const { data } = response;
+        const data = response.data || [];
         this.updateSetups(data.map(item => this.parseSetupData(item)));
       })
       .catch(error => {
