@@ -45,6 +45,15 @@ class Setups extends React.Component {
       });
   }
 
+  removeSetup(id) {
+    const setups = this.state.setups.filter(setup => setup._id !== id);
+    const state = {
+      ...this.state,
+      setups
+    };
+    this.setState(setups);
+  }
+
   deleteSetup(setup) {
     if (!setup._id) {
       // throw new Error("No id provided");
@@ -54,7 +63,7 @@ class Setups extends React.Component {
     axios
       .delete("/api/setups/" + _id)
       .then(response => {
-        this.getSetups();
+        this.removeSetup(_id);
       })
       .catch(error => {
         console.log(error);

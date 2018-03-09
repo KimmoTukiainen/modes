@@ -43,6 +43,9 @@ class App extends React.Component {
 
   onAmountChange(value) {
     const amount = parseInt(value, 10);
+    if (amount < 0) {
+      throw new Error("Negative amount provided");
+    }
     const state = {
       ...this.state,
       amount
@@ -68,7 +71,7 @@ class App extends React.Component {
 
   getCurrentSetup() {
     return new Setup(null, this.state.mode, this.state.key, this.state.amount);
-  }  
+  }
 
   render() {
     const modeOptions = this.state.scalePatterns.map(

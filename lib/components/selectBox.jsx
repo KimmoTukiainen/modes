@@ -5,15 +5,18 @@ import CSSModules from "react-css-modules";
 
 import Option from "./Option";
 
-
 class SelectBox extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  isActiveOption(option) {
+    return option === this.props.value;
+  }
+
   getOptionClassName(option) {
     const classNames = ["option"];
-    if (option === this.props.value) {
+    if (this.isActiveOption(option)) {
       classNames.push("selected");
     }
     return classNames.join(" ");
