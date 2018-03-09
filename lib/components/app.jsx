@@ -9,6 +9,7 @@ import { pluck, map } from "../functional.functions";
 import Frets from "./frets";
 import Setups from "./setups";
 import SelectBox from "./selectBox";
+import Login from "./login";
 
 import Option from "./Option";
 import Setup from "../api/Setup";
@@ -20,7 +21,8 @@ class App extends React.Component {
       key: "E",
       mode: "dorian",
       amount: 6,
-      scalePatterns
+      scalePatterns,
+      user: null
     };
 
     this.onModeChange = this.onModeChange.bind(this);
@@ -87,6 +89,7 @@ class App extends React.Component {
 
     return (
       <div styleName="container">
+        <Login user={this.state.user} login={console.log} />
         <Setups
           onChange={this.onSetupChange}
           getCurrentSetup={this.getCurrentSetup}

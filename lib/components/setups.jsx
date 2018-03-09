@@ -36,7 +36,8 @@ class Setups extends React.Component {
   }
 
   componentDidMount() {
-    this.getSetups();
+    // this.getSetups();
+    console.log("Dont forget to enable this"); 
   }
 
   getSetups() {
