@@ -3,6 +3,7 @@ import axios from "axios";
 import Setup from "../api/Setup";
 import styles from "./setups.module.less";
 import CSSModules from "react-css-modules";
+import { removeFromList } from "../functional.functions";
 
 class Setups extends React.Component {
   constructor(props) {
@@ -24,9 +25,14 @@ class Setups extends React.Component {
     this.setState(state);
   }
 
-  parseSetupData(setupData) {
-    const { _id, mode, key, amount } = setupData;
+  parseSetupDataItem(item) {
+    const { _id, mode, key, amount } = item;
     return new Setup(_id, mode, key, amount);
+  }
+
+  parseSetupData(response) {
+    const data = response.data || [];
+    return data.map(item => this.parseSetupDataItem(item));
   }
 
   componentDidMount() {
@@ -37,21 +43,21 @@ class Setups extends React.Component {
     axios
       .get("/api/setups")
       .then(response => {
-        const data = response.data || [];
-        this.updateSetups(data.map(item => this.parseSetupData(item)));
+        this.updateSetups(this.parseSetupData(response));
       })
       .catch(error => {
         console.log(error);
       });
   }
 
-  removeSetup(id) {
-    const setups = this.state.setups.filter(setup => setup._id !== id);
+  removeSetup(setup) {
+    const setups = removeFromList(this.state.setups, setup);
     const state = {
       ...this.state,
       setups
     };
-    this.setState(setups);
+
+    this.setState(state);
   }
 
   deleteSetup(setup) {
@@ -63,7 +69,7 @@ class Setups extends React.Component {
     axios
       .delete("/api/setups/" + _id)
       .then(response => {
-        this.removeSetup(_id);
+        this.removeSetup(setup);
       })
       .catch(error => {
         console.log(error);
