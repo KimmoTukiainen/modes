@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+
+import SetupsApi from "./SetupsApi";
 import Setup from "../api/Setup";
 import styles from "./setups.module.less";
 import CSSModules from "react-css-modules";
@@ -11,10 +13,31 @@ class Setups extends React.Component {
     this.state = {
       setups: []
     };
-
-    this.createSetup = this.createSetup.bind(this);
+    this.api = new SetupsApi();
     this.deleteSetup = this.deleteSetup.bind(this);
     this.clearSetups = this.clearSetups.bind(this);
+    this.createSetup = this.createSetup.bind(this);
+    this.createSetupFromState = this.createSetupFromState.bind(this);
+  }
+
+  async createSetup(setup) {
+    const received = await this.api.createSetup(setup);
+    this.addSetup(received);
+  }
+
+  createSetupFromState() {
+    const setup = this.props.getCurrentSetup();
+    this.createSetup(setup);
+  }
+
+  async clearSetups() {
+    const cleared = await this.api.clearSetups();
+    this.updateSetups([]);
+  }
+
+  async deleteSetup(setup) {
+    const deleted = this.api.deleteSetup(setup);
+    this.removeSetup(setup);
   }
 
   updateSetups(setups) {
@@ -25,30 +48,13 @@ class Setups extends React.Component {
     this.setState(state);
   }
 
-  parseSetupDataItem(item) {
-    const { _id, mode, key, amount } = item;
-    return new Setup(_id, mode, key, amount);
-  }
-
-  parseSetupData(response) {
-    const data = response.data || [];
-    return data.map(item => this.parseSetupDataItem(item));
+  async getSetups() {
+    const setups = await this.api.getSetups();
+    this.updateSetups(setups);
   }
 
   componentDidMount() {
-    // this.getSetups();
-    console.log("Dont forget to enable this"); 
-  }
-
-  getSetups() {
-    axios
-      .get("/api/setups")
-      .then(response => {
-        this.updateSetups(this.parseSetupData(response));
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.getSetups();
   }
 
   removeSetup(setup) {
@@ -61,43 +67,11 @@ class Setups extends React.Component {
     this.setState(state);
   }
 
-  deleteSetup(setup) {
-    if (!setup._id) {
-      // throw new Error("No id provided");
-    }
-    const { _id } = setup;
-
-    axios
-      .delete("/api/setups/" + _id)
-      .then(response => {
-        this.removeSetup(setup);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  clearSetups() {
-    axios
-      .delete("/api/setups")
-      .then(response => {
-        this.getSetups();
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  createSetup() {
-    const setup = this.props.getCurrentSetup();
-    axios
-      .post("/api/setups/", setup)
-      .then(response => {
-        this.getSetups();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+  addSetup(setup) {
+    this.setState({
+      ...this.state,
+      setups: [...this.state.setups, setup]
+    });
   }
 
   setupLabel(setup) {
@@ -115,7 +89,7 @@ class Setups extends React.Component {
             <span onClick={() => this.deleteSetup(setup)}>delete</span>
           </div>
         ))}
-        <div onClick={this.createSetup}>Save</div>
+        <div onClick={this.createSetupFromState}>Save</div>
         <div onClick={this.clearSetups}>Clear</div>
       </div>
     );
