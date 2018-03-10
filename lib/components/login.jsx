@@ -39,7 +39,11 @@ class Login extends React.Component {
     return (
       <div>
         {this.props.user ? (
-          <form className="logoutForm" onSubmit={this.props.logout()}>
+          <form
+            formMethod="post"
+            className="logoutForm"
+            onSubmit={this.props.logout()}
+          >
             <p>{this.props.user.name}</p>
             <button>Logout</button>
           </form>
