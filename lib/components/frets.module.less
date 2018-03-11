@@ -1,15 +1,18 @@
+@import "../colors.less";
+
 .fret {
   display: flex;
   justify-content: space-around;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
+  border-top: 2px solid @medium;
+  border-bottom: 2px solid @medium;
   padding-top: 10px;
   padding-bottom: 10px;
+  background-color: @lightest;
   &.special {
-    background-color: #f0f0f0;
+    background-color: @lightest;
   }
   &.first {
-    background-color: #888;
+    background-color: @dark;
   }
 }
 
@@ -22,10 +25,11 @@
   display: flex;
   flex-direction: column;
   &.hasNote {
-    background-color: #aaa;
+    background-color: @medium;
   }
 
   &.root {
-    background-color: #aaffff;
+    background-color: @emphasis;
+    color: @lightest;
   }
 }

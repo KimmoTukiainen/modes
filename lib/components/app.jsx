@@ -5,7 +5,7 @@ import axios from "axios";
 import styles from "./app.module.less";
 
 import { scalePatterns, notes } from "../data.js";
-import { pluck, map } from "../functional.functions";
+import { pluck, map, joinItems } from "../functional.functions";
 import { getTokenHeader } from "./login.functions";
 
 import Frets from "./frets";
@@ -123,32 +123,47 @@ class App extends React.Component {
         <Login
           user={this.state.user}
           login={this.login}
-          logout={() => console.log("logout")}
+          logout={e => {
+            e.preventDefault();
+            location.reload();
+          }}
         />
         <Setups
           onChange={this.onSetupChange}
           getCurrentSetup={this.getCurrentSetup}
           token={this.state.token}
+          ref={instance => {
+            this.setups = instance;
+          }}
         />
         <div styleName="choices">
           <SelectBox
+            styleName="choice"
             title="Select mode"
             options={modeOptions}
             onChange={this.onModeChange}
             value={activeMode}
           />
           <SelectBox
+            styleName="choice"
             title="Select key"
             options={keyOptions}
             onChange={this.onKeyChange}
             value={activeKey}
           />
           <SelectBox
+            styleName="choice"
             title="Amount of strings"
             options={stringOptions}
             onChange={this.onAmountChange}
             value={activeString}
           />
+          <div
+            styleName={joinItems(["save", this.state.token ? "" : "hide"])}
+            onClick={() => this.setups.createSetupFromState()}
+          >
+            Save
+          </div>
         </div>
         <Frets
           amount={this.state.amount}

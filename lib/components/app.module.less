@@ -1,9 +1,22 @@
+@import "../colors.less";
+
 body {
   margin: 0;
   padding: 0;
   font-size: 17px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Lato", sans-serif;
+  background-color: @light;
+  color: @lightest;
 }
+
+h1,
+h2,
+h3,
+h4 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
 .container {
   margin: 0 auto 0 auto;
   max-width: 600px;
@@ -13,11 +26,28 @@ body {
   display: flex;
   flex-grow: 1;
   padding-bottom: 20px;
+  align-items: center;
 }
 .choice {
-  flex-grow: 1;
+  padding-right: 5px;
 }
 .title {
   font-size: 17px;
   font-weight: 400;
+  margin-top: 0;
+}
+.save {
+  display: inline-block;
+  background-color: @medium;
+  color: @lightest;
+  font-size: 17px;
+  cursor: pointer;
+  padding: 4px 7px;
+  box-sizing: border-box;
+  min-width: 70px;
+  text-align: center;
+  border: 0;
+}
+.hide {
+  display: none;
 }

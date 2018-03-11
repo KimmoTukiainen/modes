@@ -5,7 +5,7 @@ import SetupsApi from "./SetupsApi";
 import Setup from "../api/Setup";
 import styles from "./setups.module.less";
 import CSSModules from "react-css-modules";
-import { removeFromList } from "../functional.functions";
+import { removeFromList, joinItems } from "../functional.functions";
 
 class Setups extends React.Component {
   constructor(props) {
@@ -83,18 +83,30 @@ class Setups extends React.Component {
   }
 
   render() {
+    const hideClass = this.props.token ? "" : "hide";
     return (
-      <div>
+      <div styleName="setups">
         {this.state.setups.map(setup => (
           <div styleName="setup" key={setup._id}>
-            <span onClick={() => this.props.onChange(setup)}>
+            <span styleName="setupLabel" onClick={() => this.props.onChange(setup)}>
               {this.setupLabel(setup)}
             </span>
-            <span onClick={() => this.deleteSetup(setup)}>delete</span>
+            <span
+              styleName={joinItems(["delete", hideClass])}
+              onClick={() => this.deleteSetup(setup)}
+            >
+              Delete
+            </span>
           </div>
         ))}
-        <div onClick={this.createSetupFromState}>Save</div>
-        <div onClick={this.clearSetups}>Clear</div>
+        <div styleName="buttons">          
+          <div
+            styleName={joinItems(["clear", hideClass])}
+            onClick={this.clearSetups}
+          >
+            Clear
+          </div>
+        </div>
       </div>
     );
   }

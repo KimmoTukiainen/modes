@@ -8,7 +8,8 @@ class Login extends React.Component {
     super(props);
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      showLoginForm: false
     };
     this.login = this.login.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -26,6 +27,13 @@ class Login extends React.Component {
     };
   }
 
+  toggleLoginForm() {
+    this.setState({
+      ...this.state,
+      showLoginForm: !this.state.showLoginForm
+    });
+  }
+
   login() {
     const { username, password } = this.state;
     const payload = {
@@ -40,16 +48,17 @@ class Login extends React.Component {
       <div>
         {this.props.user ? (
           <form
-            formMethod="post"
-            className="logoutForm"
-            onSubmit={() => this.props.logout()}
+            method="post"
+            styleName="logoutForm"
+            onSubmit={e => this.props.logout(e)}
           >
-            <p>{this.props.user.name}</p>
-            <button>Logout</button>
+            <span>{this.props.user.name}</span>
+            <button styleName="action">Logout</button>
           </form>
-        ) : (
+        ) : this.state.showLoginForm ? (
           <form
-            className="loginForm"
+            method="post"
+            styleName="loginForm"
             onSubmit={e => {
               e.preventDefault();
               this.login();
@@ -69,8 +78,29 @@ class Login extends React.Component {
               value={this.props.password}
               onChange={this.onChange("password")}
             />
-            <button>Login</button>
+            <div>
+              <button styleName="action">Login</button>
+              <span
+                styleName="action showLogin"
+                onClick={e => {
+                  e.preventDefault();
+                  this.toggleLoginForm();
+                }}
+              >
+                Cancel
+              </span>
+            </div>
           </form>
+        ) : (
+          <span
+            styleName="action showLogin"
+            onClick={e => {
+              e.preventDefault();
+              this.toggleLoginForm();
+            }}
+          >
+            Login
+          </span>
         )}
       </div>
     );
