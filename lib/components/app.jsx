@@ -4,8 +4,8 @@ import axios from "axios";
 
 import styles from "./app.module.less";
 
-import { scalePatterns, notes } from "../data.js";
-import { pluck, map, joinItems } from "../functional.functions";
+import { scalePatterns, notes } from "../data";
+import { joinItems } from "../functional.functions";
 import { getTokenHeader } from "./login.functions";
 
 import Frets from "./frets";
@@ -35,34 +35,6 @@ class App extends React.Component {
     this.getCurrentSetup = this.getCurrentSetup.bind(this);
     this.login = this.login.bind(this);
   }
-
-  async login(credentials) {
-    const response = await axios
-      .post("/api/login", credentials)
-      .catch(error => console.warn(error));
-    const { token } = response.data;
-
-    const res = await axios.get("/api/users/me", getTokenHeader(token));
-
-    const { user } = res.data;
-    this.setUser(user);
-    this.setToken(token);
-  }
-
-  setUser(user) {
-    this.setState({
-      ...this.state,
-      user
-    });
-  }
-
-  setToken(token) {
-    this.setState({
-      ...this.state,
-      token
-    });
-  }
-
   onSetupChange(setup) {
     const state = {
       ...this.state,
@@ -70,7 +42,6 @@ class App extends React.Component {
     };
 
     delete state._id;
-
     this.setState(state);
   }
 
@@ -102,8 +73,35 @@ class App extends React.Component {
     this.setState(state);
   }
 
+  setToken(token) {
+    this.setState({
+      ...this.state,
+      token
+    });
+  }
+
+  setUser(user) {
+    this.setState({
+      ...this.state,
+      user
+    });
+  }
+
   getCurrentSetup() {
     return new Setup(null, this.state.mode, this.state.key, this.state.amount);
+  }
+
+  async login(credentials) {
+    const response = await axios
+      .post("/api/login", credentials)
+      .catch(error => console.warn(error));
+    const { token } = response.data;
+
+    const res = await axios.get("/api/users/me", getTokenHeader(token));
+
+    const { user } = res.data;
+    this.setUser(user);
+    this.setToken(token);
   }
 
   render() {
