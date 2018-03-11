@@ -49,7 +49,7 @@ class Login extends React.Component {
         {this.props.user ? (
           <form
             method="post"
-            styleName="logoutForm"
+            styleName="logoutForm topArea"
             onSubmit={e => this.props.logout(e)}
           >
             <span>{this.props.user.name}</span>
@@ -93,15 +93,17 @@ class Login extends React.Component {
             </div>
           </form>
         ) : (
-          <span
-            styleName="action"
-            onClick={e => {
-              e.preventDefault();
-              this.toggleLoginForm();
-            }}
-          >
-            Login
-          </span>
+          <div styleName="topArea openForm">
+            <span
+              styleName="action"
+              onClick={e => {
+                e.preventDefault();
+                this.toggleLoginForm();
+              }}
+            >
+              Login
+            </span>
+          </div>
         )}
       </div>
     );
