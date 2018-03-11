@@ -33,12 +33,12 @@ class Setups extends React.Component {
   }
 
   async clearSetups() {
-    const cleared = await this.api.clearSetups();
+    const cleared = await this.api.clearSetups(this.props.token);
     this.updateSetups([]);
   }
 
   async deleteSetup(setup) {
-    const deleted = await this.api.deleteSetup(setup);
+    const deleted = await this.api.deleteSetup(setup, this.props.token);
     if (deleted) {
       this.removeSetup(setup);
     }
