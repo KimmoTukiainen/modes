@@ -21,8 +21,10 @@ class Setups extends React.Component {
   }
 
   async createSetup(setup) {
-    const received = await this.api.createSetup(setup);
-    this.addSetup(received);
+    const received = await this.api.createSetup(setup, this.props.token);
+    if (received) {
+      this.addSetup(received);
+    }
   }
 
   createSetupFromState() {
@@ -36,8 +38,10 @@ class Setups extends React.Component {
   }
 
   async deleteSetup(setup) {
-    const deleted = this.api.deleteSetup(setup);
-    this.removeSetup(setup);
+    const deleted = await this.api.deleteSetup(setup);
+    if (deleted) {
+      this.removeSetup(setup);
+    }
   }
 
   updateSetups(setups) {

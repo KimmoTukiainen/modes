@@ -1,10 +1,12 @@
 import React from "react";
 import CSSModules from "react-css-modules";
+import axios from "axios";
 
 import styles from "./app.module.less";
 
 import { scalePatterns, notes } from "../data.js";
 import { pluck, map } from "../functional.functions";
+import { getTokenHeader } from "./login.functions";
 
 import Frets from "./frets";
 import Setups from "./setups";
@@ -22,7 +24,8 @@ class App extends React.Component {
       mode: "dorian",
       amount: 6,
       scalePatterns,
-      user: null
+      user: null,
+      token: null
     };
 
     this.onModeChange = this.onModeChange.bind(this);
@@ -30,6 +33,34 @@ class App extends React.Component {
     this.onAmountChange = this.onAmountChange.bind(this);
     this.onSetupChange = this.onSetupChange.bind(this);
     this.getCurrentSetup = this.getCurrentSetup.bind(this);
+    this.login = this.login.bind(this);
+  }
+
+  async login(credentials) {
+    const response = await axios
+      .post("/api/login", credentials)
+      .catch(error => console.warn(error));
+    const { token } = response.data;
+
+    const res = await axios.get("/api/users/me", getTokenHeader(token));
+
+    const { user } = res.data;
+    this.setUser(user);
+    this.setToken(token);
+  }
+
+  setUser(user) {
+    this.setState({
+      ...this.state,
+      user
+    });
+  }
+
+  setToken(token) {
+    this.setState({
+      ...this.state,
+      token
+    });
   }
 
   onSetupChange(setup) {
@@ -89,10 +120,15 @@ class App extends React.Component {
 
     return (
       <div styleName="container">
-        <Login user={this.state.user} login={console.log} />
+        <Login
+          user={this.state.user}
+          login={this.login}
+          logout={() => console.log("logout")}
+        />
         <Setups
           onChange={this.onSetupChange}
           getCurrentSetup={this.getCurrentSetup}
+          token={this.state.token}
         />
         <div styleName="choices">
           <SelectBox
