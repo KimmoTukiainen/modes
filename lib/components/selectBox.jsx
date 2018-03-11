@@ -5,15 +5,18 @@ import CSSModules from "react-css-modules";
 
 import Option from "./Option";
 
-
 class SelectBox extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  isActiveOption(option) {
+    return option === this.props.value;
+  }
+
   getOptionClassName(option) {
     const classNames = ["option"];
-    if (option === this.props.value) {
+    if (this.isActiveOption(option)) {
       classNames.push("selected");
     }
     return classNames.join(" ");
@@ -24,11 +27,12 @@ class SelectBox extends React.Component {
     this.props.onChange(value);
   }
 
+  // <h3 styleName="title">{this.props.title}</h3>
+
   render() {
     const { value } = this.props.value;
     return (
-      <div>
-        <h3 styleName="title">{this.props.title}</h3>
+      <div styleName="choice">
         <select value={value} onChange={this.onChange.bind(this)}>
           {this.props.options.map((option, i) => (
             <option

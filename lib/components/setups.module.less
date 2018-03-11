@@ -1,3 +1,41 @@
+@import "../colors.less";
+
+.setups {
+  display: flex;
+  flex-direction: column;
+}
+
 .setup {
   cursor: pointer;
+  padding: 0 0 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.setupLabel {
+  flex-grow: 1;
+}
+
+.delete,
+.clear {
+  display: inline-block;
+  background-color: @medium;
+  color: @lightest;
+  font-size: 17px;
+  cursor: pointer;
+  padding: 4px 7px;
+  box-sizing: border-box;
+  min-width: 70px;
+  text-align: center;
+  border: 0;
+  border-radius: 7px;
+}
+
+.hide {
+  display: none;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
 }

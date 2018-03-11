@@ -1,0 +1,35 @@
+@import "../colors.less";
+
+.fret {
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 2px solid @medium;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: @lightest;
+  &.special {
+    background-color: @lightest;
+  }
+  &.first {
+    background-color: @dark;
+    border: 0;
+  }
+}
+
+.note {
+  text-align: center;
+  min-width: 50px;
+  min-height: 50px;
+  justify-content: center;
+  border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  &.hasNote {
+    background-color: @medium;
+  }
+
+  &.root {
+    background-color: @emphasis;
+    color: @lightest;
+  }
+}
