@@ -8,6 +8,8 @@ module.exports = {
     it: true,
     expect: true,
     beforeEach: true,
-    afterEach: true
+    afterEach: true,
+    document: true,
+    location: true
   }
 };
