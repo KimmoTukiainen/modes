@@ -138,21 +138,18 @@ class App extends React.Component {
         />
         <div styleName="choices">
           <SelectBox
-            styleName="choice"
             title="Select mode"
             options={modeOptions}
             onChange={this.onModeChange}
             value={activeMode}
           />
           <SelectBox
-            styleName="choice"
             title="Select key"
             options={keyOptions}
             onChange={this.onKeyChange}
             value={activeKey}
           />
           <SelectBox
-            styleName="choice"
             title="Amount of strings"
             options={stringOptions}
             onChange={this.onAmountChange}

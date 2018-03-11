@@ -27,11 +27,12 @@ class SelectBox extends React.Component {
     this.props.onChange(value);
   }
 
+  // <h3 styleName="title">{this.props.title}</h3>
+
   render() {
     const { value } = this.props.value;
     return (
-      <div>
-        <h3 styleName="title">{this.props.title}</h3>
+      <div styleName="choice">
         <select value={value} onChange={this.onChange.bind(this)}>
           {this.props.options.map((option, i) => (
             <option

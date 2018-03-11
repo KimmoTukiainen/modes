@@ -64,6 +64,7 @@ class Login extends React.Component {
               this.login();
             }}
           >
+            <h1 styleName="title">Modes for Guitar</h1>
             <label htmlFor="username">Username</label>
             <input
               type="text"
@@ -78,10 +79,9 @@ class Login extends React.Component {
               value={this.props.password}
               onChange={this.onChange("password")}
             />
-            <div>
-              <button styleName="action">Login</button>
+            <div styleName="actions">
               <span
-                styleName="action showLogin"
+                styleName="action"
                 onClick={e => {
                   e.preventDefault();
                   this.toggleLoginForm();
@@ -89,11 +89,12 @@ class Login extends React.Component {
               >
                 Cancel
               </span>
+              <button styleName="action">Login</button>
             </div>
           </form>
         ) : (
           <span
-            styleName="action showLogin"
+            styleName="action"
             onClick={e => {
               e.preventDefault();
               this.toggleLoginForm();
