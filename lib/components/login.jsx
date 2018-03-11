@@ -9,7 +9,7 @@ class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
-      showLoginForm: false
+      showLoginForm: this.props.showLoginForm
     };
     this.login = this.login.bind(this);
     this.onChange = this.onChange.bind(this);

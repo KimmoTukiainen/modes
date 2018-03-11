@@ -127,6 +127,7 @@ class App extends React.Component {
             e.preventDefault();
             location.reload();
           }}
+          showLoginForm={false}
         />
         <Setups
           onChange={this.onSetupChange}
