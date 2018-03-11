@@ -14,7 +14,7 @@
     "postinstall": "npm run build:dev && npm run build:api",
     "build:dev": "rollup -c config/dev.js",
     "build:api": "rollup -c config/api.js",
-    "eslint": "eslint lib"
+    "eslint": "eslint lib --fix"
   },
   "repository": {
     "type": "git",
