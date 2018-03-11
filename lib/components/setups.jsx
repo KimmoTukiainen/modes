@@ -1,10 +1,15 @@
 import React from "react";
-import axios from "axios";
-
-import SetupsApi from "./SetupsApi";
-import Setup from "../api/Setup";
-import styles from "./setups.module.less";
 import CSSModules from "react-css-modules";
+import PropTypes from "prop-types";
+
+import styles from "./setups.module.less";
+import {
+  createSetup,
+  setupLabel,
+  getSetups,
+  deleteSetup,
+  clearSetups
+} from "./setups.functions";
 import { removeFromList, joinItems } from "../functional.functions";
 
 class Setups extends React.Component {
@@ -13,32 +18,23 @@ class Setups extends React.Component {
     this.state = {
       setups: []
     };
-    this.api = new SetupsApi();
     this.deleteSetup = this.deleteSetup.bind(this);
     this.clearSetups = this.clearSetups.bind(this);
     this.createSetup = this.createSetup.bind(this);
     this.createSetupFromState = this.createSetupFromState.bind(this);
   }
 
-  async createSetup(setup) {
-    const received = await this.api.createSetup(setup, this.props.token);
-    if (received) {
-      this.addSetup(received);
-    }
+  componentDidMount() {
+    this.getSetups();
   }
 
-  createSetupFromState() {
-    const setup = this.props.getCurrentSetup();
-    this.createSetup(setup);
-  }
-
-  async clearSetups() {
-    const cleared = await this.api.clearSetups(this.props.token);
-    this.updateSetups([]);
+  async getSetups() {
+    const setups = await getSetups();
+    this.updateSetups(setups);
   }
 
   async deleteSetup(setup) {
-    const deleted = await this.api.deleteSetup(setup, this.props.token);
+    const deleted = await deleteSetup(setup, this.props.token);
     if (deleted) {
       this.removeSetup(setup);
     }
@@ -52,13 +48,16 @@ class Setups extends React.Component {
     this.setState(state);
   }
 
-  async getSetups() {
-    const setups = await this.api.getSetups();
-    this.updateSetups(setups);
+  async clearSetups() {
+    const cleared = await clearSetups(this.props.token);
+    if (cleared) {
+      this.updateSetups([]);
+    }
   }
 
-  componentDidMount() {
-    this.getSetups();
+  createSetupFromState() {
+    const setup = this.props.getCurrentSetup();
+    this.createSetup(setup);
   }
 
   removeSetup(setup) {
@@ -78,8 +77,11 @@ class Setups extends React.Component {
     });
   }
 
-  setupLabel(setup) {
-    return `${setup.mode} ${setup.key} ${setup.amount}`;
+  async createSetup(setup) {
+    const received = await createSetup(setup, this.props.token);
+    if (received) {
+      this.addSetup(received);
+    }
   }
 
   render() {
@@ -88,8 +90,11 @@ class Setups extends React.Component {
       <div styleName="setups">
         {this.state.setups.map(setup => (
           <div styleName="setup" key={setup._id}>
-            <span styleName="setupLabel" onClick={() => this.props.onChange(setup)}>
-              {this.setupLabel(setup)}
+            <span
+              styleName="setupLabel"
+              onClick={() => this.props.onChange(setup)}
+            >
+              {setupLabel(setup)}
             </span>
             <span
               styleName={joinItems(["delete", hideClass])}
@@ -99,7 +104,7 @@ class Setups extends React.Component {
             </span>
           </div>
         ))}
-        <div styleName="buttons">          
+        <div styleName="buttons">
           <div
             styleName={joinItems(["clear", hideClass])}
             onClick={this.clearSetups}
@@ -111,5 +116,10 @@ class Setups extends React.Component {
     );
   }
 }
+
+Setups.propTypes = {
+  token: PropTypes.string.isRequired,
+  getCurrentSetup: PropTypes.func.isRequired
+};
 
 export default CSSModules(Setups, styles, { allowMultiple: true });

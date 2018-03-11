@@ -1,8 +1,13 @@
 module.exports = {
-    "extends": ["airbnb", "prettier"],
-    "globals": {
-        "describe": true,
-        "it": true,
-        "expect": true
-    }
+  extends: ["airbnb", "prettier"],
+  rules: {
+    "no-underscore-dangle": 0
+  },
+  globals: {
+    describe: true,
+    it: true,
+    expect: true,
+    beforeEach: true,
+    afterEach: true
+  }
 };

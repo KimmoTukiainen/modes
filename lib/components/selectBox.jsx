@@ -1,17 +1,20 @@
-import styles from "./selectBox.module.less";
 import PropTypes from "prop-types";
 import React from "react";
 import CSSModules from "react-css-modules";
+
+import styles from "./selectBox.module.less";
 
 import Option from "./Option";
 
 class SelectBox extends React.Component {
   constructor(props) {
     super(props);
+    this.onChange = this.onChange.bind(this);
   }
 
-  isActiveOption(option) {
-    return option === this.props.value;
+  onChange(event) {
+    const { value } = event.target;
+    this.props.onChange(value);
   }
 
   getOptionClassName(option) {
@@ -22,9 +25,8 @@ class SelectBox extends React.Component {
     return classNames.join(" ");
   }
 
-  onChange(event) {
-    const { value } = event.target;
-    this.props.onChange(value);
+  isActiveOption(option) {
+    return option === this.props.value;
   }
 
   // <h3 styleName="title">{this.props.title}</h3>
@@ -33,7 +35,7 @@ class SelectBox extends React.Component {
     const { value } = this.props.value;
     return (
       <div styleName="choice">
-        <select value={value} onChange={this.onChange.bind(this)}>
+        <select value={value} onChange={this.onChange}>
           {this.props.options.map((option, i) => (
             <option
               key={`${option.value}-${i}`}
@@ -50,7 +52,6 @@ class SelectBox extends React.Component {
 }
 
 SelectBox.propTypes = {
-  title: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(PropTypes.instanceOf(Option)).isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.instanceOf(Option).isRequired
