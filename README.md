@@ -22,4 +22,4 @@ Run tests in watch mode:
 2. Build process could be faster
 3. Default imports for React
 4. Improve test coverage
-5. Clear all the eslint warnings
+5. Fix all the issues eslint is warning about
