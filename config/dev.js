@@ -25,20 +25,7 @@ export default {
       main: true
     }),
     babel({
-      babelrc: false,
-      exclude: ["node_modules/**", "**/*.less"],
-      presets: ["es2015-rollup", "stage-0", "react"],
-      plugins: [
-        [
-          "transform-runtime",
-          {
-            helpers: false,
-            polyfill: false,
-            regenerator: true,
-            moduleName: "babel-runtime"
-          }
-        ]
-      ]
+      babelrc: true
     }),
     commonjs({
       include: "node_modules/**",

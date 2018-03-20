@@ -117,8 +117,12 @@ class Setups extends React.Component {
   }
 }
 
+Setups.defaultProps = {
+  token: null
+};
+
 Setups.propTypes = {
-  token: PropTypes.string.isRequired,
+  token: PropTypes.string,
   getCurrentSetup: PropTypes.func.isRequired
 };
 

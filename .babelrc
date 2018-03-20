@@ -1,3 +1,44 @@
 {
-  "presets": ["es2015", "react", "stage-0"]
+  "ignore": ["node_modules/**", "**/*.less"],
+  "env": {
+    "rollup": {
+      "presets": [
+        "es2015-rollup",
+        "stage-2",
+        "react",
+        [
+          "env",
+          {
+            "modules": false
+          }
+        ]        
+      ]
+    },
+    "mocha": {
+      "presets": ["es2015", "react", "env", "stage-2"]
+    }
+  },
+  "sourceMaps": "inline",
+  "plugins": [
+    [
+      "transform-runtime",
+      {
+        "helpers": false,
+        "polyfill": false,
+        "regenerator": true,
+        "moduleName": "babel-runtime"
+      }
+    ],
+    [
+      "react-css-modules",
+      {
+        "filetypes": {
+          ".less": {
+            "syntax": "postcss-less"
+          }
+        },
+        "generateScopedName": "[local]"
+      }
+    ]
+  ]
 }

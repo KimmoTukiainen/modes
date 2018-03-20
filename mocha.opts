@@ -2,6 +2,7 @@
 --timeout 999999
 --colors
 --recursive
+--compilers js:babel-core/register
 ./lib/**/*.test.js
 --require
 ./test/test.bootstrap.js
