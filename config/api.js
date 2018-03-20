@@ -12,15 +12,7 @@ export default {
     sourcemap: false,
     intro: "var regeneratorRuntime = require('regenerator-runtime');\n"
   },
-  external: [
-    "express",
-    "body-parser",
-    "mongodb",
-    "path",
-    "jsonwebtoken",
-    "dotenv",
-    "fs"
-  ],
+  external: ["express", "body-parser", "mongodb", "path", "jsonwebtoken", "dotenv", "fs"],
   plugins: [
     json(),
     resolve({
@@ -31,7 +23,9 @@ export default {
     }),
     cjs(),
     babel({
-      babelrc: true
+      babelrc: false,
+      exclude: ["node_modules/**", "**/*.less"],
+      presets: ["es2015-rollup", "stage-0", "react"]
     })
   ]
 };

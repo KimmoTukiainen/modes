@@ -8,6 +8,23 @@ require("ignore-styles");
 
 // ES6/ES201X-functionality
 require("babel-polyfill");
+require("babel-register")({
+  sourceMaps: "inline",
+  presets: ["env", "stage-0", "react"],
+  plugins: [
+    [
+      "react-css-modules", // LESS processing needs this*
+      {
+        filetypes: {
+          ".less": {
+            syntax: "postcss-less"
+          }
+        },
+        generateScopedName: "[local]"
+      }
+    ]
+  ]
+});
 // (require("../package.json").babel); // to be able to write es6+ tests
 
 /*
