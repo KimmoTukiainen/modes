@@ -1,24 +1,17 @@
 import React from "react";
 import CSSModules from "react-css-modules";
+import PropTypes from "prop-types";
 
 import styles from "./frets.module.less";
 
-import { getScalePattern } from "../data.js";
-import {
-  getScale,
-  getStringOctave,
-  getStrings
-} from "../modes/modes.functions";
+import { getScalePattern } from "../data";
+import { getScale, getStrings } from "../modes/modes.functions";
 import { getFretSymbols } from "./app.functions";
 
 class Frets extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   renderNote(note, key) {
     const hasNote = note !== "-";
-    let names = ["note"];
+    const names = ["note"];
     if (hasNote) {
       names.push("hasNote");
     }
@@ -38,7 +31,7 @@ class Frets extends React.Component {
   renderFret(frets, i) {
     const currentFret = frets.map(str => str[i]);
     const special = [3, 5, 7, 9].some(nbr => nbr === i);
-    let className = ["fret"];
+    const className = ["fret"];
     if (special) {
       className.push("special");
     }
@@ -47,7 +40,7 @@ class Frets extends React.Component {
     }
     return (
       <div styleName={className.join(" ")} key={i}>
-        {currentFret.map((note, j) => this.renderNote(note, i + "-" + j))}
+        {currentFret.map((note, j) => this.renderNote(note, `${i}-${j}`))}
       </div>
     );
   }
@@ -60,5 +53,11 @@ class Frets extends React.Component {
     return <div>{frets[0].map((fret, i) => this.renderFret(frets, i))}</div>;
   }
 }
+
+Frets.propTypes = {
+  amount: PropTypes.number.isRequired,
+  mode: PropTypes.string.isRequired,
+  note: PropTypes.string.isRequired
+};
 
 export default CSSModules(Frets, styles, { allowMultiple: true });
