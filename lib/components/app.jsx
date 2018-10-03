@@ -9,10 +9,7 @@ import { joinItems } from "../functional.functions";
 import { getTokenHeader } from "./login.functions";
 
 import Frets from "./frets";
-import Setups from "./setups";
 import SelectBox from "./selectBox";
-import Login from "./login";
-
 import Option from "./Option";
 import Setup from "../api/Setup";
 
@@ -23,7 +20,6 @@ class App extends React.Component {
       key: "E",
       mode: "dorian",
       amount: 6,
-      scalePatterns,
       user: null,
       token: null
     };
@@ -105,7 +101,7 @@ class App extends React.Component {
   }
 
   render() {
-    const modeOptions = this.state.scalePatterns.map(
+    const modeOptions = scalePatterns.map(
       pattern => new Option(pattern.name, pattern.name)
     );
     const activeMode = modeOptions.find(opt => opt.value === this.state.mode);
@@ -118,23 +114,6 @@ class App extends React.Component {
 
     return (
       <div styleName="container">
-        <Login
-          user={this.state.user}
-          login={this.login}
-          logout={e => {
-            e.preventDefault();
-            location.reload();
-          }}
-          showLoginForm={false}
-        />
-        <Setups
-          onChange={this.onSetupChange}
-          getCurrentSetup={this.getCurrentSetup}
-          token={this.state.token}
-          ref={instance => {
-            this.setups = instance;
-          }}
-        />
         <div styleName="choices">
           <SelectBox
             title="Select mode"
